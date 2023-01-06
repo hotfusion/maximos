@@ -1,9 +1,21 @@
 <template>
     <Layout orientation="horizontal">
         <Layout style="width: 30%">
+            <!--<Grid style="width: inherit">
+                <columns>
+                    <column>a</column>
+                    <column>b</column>
+                </columns>
+                <rows>
+                    <row>
+                        <cell>1</cell>
+                        <cell>2</cell>
+                    </row>
+                </rows>
+            </Grid>-->
             <Grid style="width: inherit">
                 <columns>
-                    <column style="min-width: 160px">Scene</column>
+                    <column>Scene</column>
                     <column></column>
                 </columns>
                 <rows>
@@ -67,6 +79,7 @@
     import {Vue} from '@hotfusion/vue';
     import UI from '@hotfusion/ui';
     import * as THREE from 'three';
+    import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
     import {get,set} from 'lodash';
     import {layers} from './components/configs/layers';
 
@@ -115,18 +128,51 @@
         mounted() {
             const ui       = new UI();
 
+
             const canvas = document.querySelector('canvas');
             const renderer = new THREE.WebGLRenderer({canvas});
-            const camera = this.addCamera()
-                  camera.position.z = 2;
+
+            const camera = this.addCamera(45,2,0.1,100)
+            camera.position.set(0, 10, 20);
             const scene = new THREE.Scene();
 
-            let cube = this.addCube()
+            let cube = this.addCube(5,5,5)
             scene.add(cube);
 
             const helper = new THREE.CameraHelper( camera );
             scene.add( helper );
             const axesHelper = new THREE.AxesHelper( 5 );
+
+            const controls = new OrbitControls(camera, canvas);
+            controls.target.set(0, 5, 0);
+            controls.update();
+
+           // (() => {
+                const planeSize = 40;
+
+                const loader = new THREE.TextureLoader();
+                const texture = loader.load('https://threejs.org/manual/examples/resources/images/checker.png');
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.magFilter = THREE.NearestFilter;
+                const repeats = planeSize / 2;
+                texture.repeat.set(repeats, repeats);
+
+                const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
+                const planeMat = new THREE.MeshPhongMaterial({
+                    map: texture,
+                    side: THREE.DoubleSide,
+                });
+                const mesh = new THREE.Mesh(planeGeo, planeMat);
+                mesh.rotation.x = Math.PI * -.5;
+                scene.add(mesh);
+            //})()
+
+            const color = 0xFFFFFF;
+            const intensity = 1;
+            const light = new THREE.AmbientLight(color, intensity);
+            scene.add(light);
+
             scene.add( axesHelper );
             let render = (time) => {
                 time *= 0.001;  // convert time to seconds
