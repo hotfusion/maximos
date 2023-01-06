@@ -1,0 +1,21 @@
+{
+  "name": "maximos",
+  "version": "1.0.0",
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.20.5",
+    "@hotfusion/service": "file:../service/dist",
+    "@hotfusion/types": "file:../types/dist",
+    "@hotfusion/ui": "file:../ui/dist",
+    "@hotfusion/vue": "file:../vue/dist",
+    "@types/node": "^18.11.18",
+    "three": "^0.148.0",
+    "lodash": "^4.17.21"
+  },
+  "scripts": {
+    "Maximos": "npx HF --port 8082 --public ./www --watch --services ./services"
+  },
+  "devDependencies": {
+    "@types/three": "^0.148.0"
+  }
+}

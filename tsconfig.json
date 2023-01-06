@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2018",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "noEmitHelpers": false,
+    "importHelpers": false,
+    "declaration": false,
+    "skipDefaultLibCheck": true,
+    "sourceMap": true
+  },
+  "include": ["www/**/*.ts","services/**/*.ts"]
+}
